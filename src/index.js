@@ -41,6 +41,37 @@ const reducer = (state = initialState, action) => {
         })
       }
 
+
+    case "check/load/start":
+      return{
+        ...state,
+        todos:state.todos.map(todo =>{
+          if(todo.id === action.payload){
+            return {
+              ...todo,
+              checking:true
+            }
+          }
+          return todo
+        })
+      }
+
+    case "check/load/succsess":
+      return{
+        ...state,
+        todos:state.todos.map(todo =>{
+          if(todo.id === action.payload){
+            return{
+              ...todo,
+              completed: !todo.completed,
+              checking:false
+            }
+          }
+          return todo
+        
+        })
+      }
+
     case "delete/todo/fulfilled":
       return {
         ...state,

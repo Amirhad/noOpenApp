@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadTodo, removeTodo } from "./actions";
+import { loadTodo, removeTodo, updateCheck } from "./actions";
 import ReactLoading from "react-loading";
 
 function App() {
@@ -15,6 +15,13 @@ function App() {
   const handleRemove = (id) => {
     dispatch(removeTodo(id));
   };
+
+
+  const handleChange = (id,completed) =>{
+    dispatch(updateCheck(id,completed));
+
+  }
+
   return (
     <div className="center">
       <header>Список дел:{todos.length}</header>
@@ -27,7 +34,14 @@ function App() {
             <div id="task-list">
               <ul>
                 <li>
-                  <input type="checkbox" checked={item.completed} />
+                {
+                  item.checking ? <ReactLoading type="spin" color="blue" height="20px" width="20px" /> : (
+                    <input
+                    type="checkbox"
+                    checked={item.completed} 
+                    onChange={() => handleChange(item.id, item.completed)}/>
+                  )
+                }
                   <span>{item.title}</span>
                   <button
                     onClick={() => handleRemove(item.id)}
